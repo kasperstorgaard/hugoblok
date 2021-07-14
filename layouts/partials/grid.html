@@ -1,0 +1,9 @@
+<section class="[ grid ]">
+  {{ range .columns }}
+    {{ if eq .component "feature" }}
+      {{ partial "feature" . }}
+    {{ else }}
+      unable to find grid component for {{ .component }}
+    {{ end }}
+  {{ end }}
+</section>

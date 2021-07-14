@@ -1,0 +1,13 @@
+{{ range .body }}
+  {{ if eq .component "feature" }}
+    feature :)
+  {{ else if eq .component "grid" }}
+    {{ partial "grid" . }}
+  {{ else if eq .component "call_to_action" }}
+    call to action!
+  {{ else if eq .component "teaser" }}
+    {{ partial "teaser" . }}
+  {{ else }}
+    didnt find component for {{ .component }}
+  {{ end }}
+{{ end }}
