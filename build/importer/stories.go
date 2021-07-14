@@ -11,14 +11,18 @@ import (
 )
 
 type cmsStory struct {
-	Name      string `json:"name"`
-	CreatedAt string `json:"created_at"`
-	FullSlug  string `json:"full_slug"`
+	Name      string  `json:"name"`
+	CreatedAt string  `json:"created_at"`
+	FullSlug  string  `json:"full_slug"`
+	Slug      string  `json:"slug"`
+	Content   CmsPage `json:"content"`
 }
 
 type contentStory struct {
-	Title string `json:"title"`
-	Date  string `json:"date"`
+	Title   string  `json:"title"`
+	Date    string  `json:"date"`
+	Slug    string  `json:"slug"`
+	Content CmsPage `json:"content"`
 }
 
 type cmsData struct {
@@ -40,7 +44,15 @@ func ImportStories() {
 			break
 		}
 
-		rPath := fmt.Sprintf("content/%s.md", strings.TrimSuffix(item.FullSlug, "/"))
+		var rPath string
+		if item.FullSlug == "home" {
+			rPath = "content/_index.md"
+		} else if strings.HasSuffix(item.FullSlug, "/") {
+			rPath = fmt.Sprintf("content/%s_index.md", item.FullSlug)
+		} else {
+			rPath = fmt.Sprintf("content/%s.md", item.FullSlug)
+		}
+
 		path, err := filepath.Abs(rPath)
 		if err != nil {
 			log.Fatal(err)
@@ -54,8 +66,10 @@ func ImportStories() {
 		}
 
 		content := contentStory{
-			Title: item.Name,
-			Date:  item.CreatedAt,
+			Title:   item.Name,
+			Date:    item.CreatedAt,
+			Slug:    item.Slug,
+			Content: item.Content,
 		}
 
 		body, err := json.MarshalIndent(&content, "", "  ")

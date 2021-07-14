@@ -8,7 +8,7 @@ import (
 	"net/url"
 )
 
-const token = "YWdQau6M3BFc25tAXuvhwAtt"
+const previewToken = "JwMpYgzwMNdNM0ZYptvnDQtt"
 
 func SendRequest(path string) []byte {
 	url := url.URL{
@@ -17,7 +17,8 @@ func SendRequest(path string) []byte {
 		Path:   fmt.Sprintf("/v2/cdn/%s", path),
 	}
 	query := url.Query()
-	query.Add("token", token)
+	query.Add("token", previewToken)
+	query.Add("version", "draft")
 	url.RawQuery = query.Encode()
 
 	client := http.Client{}
