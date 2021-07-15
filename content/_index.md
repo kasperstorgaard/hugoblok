@@ -138,7 +138,7 @@
     "first_published_at": null,
     "release_id": null,
     "lang": "default",
-    "path": null,
+    "path": "/",
     "alternates": [],
     "default_full_slug": null,
     "translated_slugs": null

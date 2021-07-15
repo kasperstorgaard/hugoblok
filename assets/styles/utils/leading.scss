@@ -1,0 +1,13 @@
+.leading {
+  &-flat {
+    line-height: 1.1;
+  }
+
+  &-tight {
+    line-height: 1.3;
+  }
+
+  &-loose {
+    line-height: 1.7;
+  }
+}

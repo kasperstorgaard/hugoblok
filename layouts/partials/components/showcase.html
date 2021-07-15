@@ -1,3 +1,4 @@
+{{ ._editable | safeHTML }}
 <section class="[ showcase ]">
   <div class="[ showcase__wrapper ]">
     {{ range .items }}
@@ -8,4 +9,5 @@
       {{ end }}
     {{ end }}
   </div>
+  <slider-controls />
 </section>
