@@ -1,0 +1,11 @@
+{{ $str := .text }}
+{{ range .marks }}
+  {{ if eq .type "bold" }}
+    {{ $str = printf "<bold>%s</bold>" $str }}
+  {{ else if eq .type "underline" }}
+    {{ $str = printf "<u>%s</u>" $str }}
+  {{ else if eq .type "italics" }}
+    {{ $str = printf "<i>%s</i>" $str }}
+  {{ end }}
+{{ end }}
+{{ return safeHTML $str }}

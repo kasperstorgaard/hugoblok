@@ -1,0 +1,19 @@
+.feature {
+  display: grid;
+  grid-template-columns: var(--size-400) 1fr var(--size-400);
+  grid-template-rows: 1fr;
+
+  align-items: center;
+  justify-content: center;
+
+  > * {
+    grid-column: 2/3;
+    grid-row: 1/2;
+    z-index: 1;
+  }
+
+  > img {
+    grid-column: 1/4;
+    width: 100%;
+  }
+}

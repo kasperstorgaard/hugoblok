@@ -3,10 +3,10 @@
     feature :)
   {{ else if eq .component "grid" }}
     {{ partial "grid" . }}
-  {{ else if eq .component "call_to_action" }}
-    call to action!
   {{ else if eq .component "teaser" }}
-    {{ partial "teaser" . }}
+    {{ partial "components/teaser" . }}
+  {{ else if eq .component "showcase" }}
+    {{ partial "components/showcase" . }}
   {{ else }}
     didnt find component for {{ .component }}
   {{ end }}

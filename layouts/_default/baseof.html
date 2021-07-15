@@ -2,17 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+
     <title>{{ block "title" . }}
       {{ .Site.Title }}
     {{ end }}</title>
+    {{ $isDev := true }}
+    {{ $options := (dict "enableSourceMap" $isDev) }}
+
+    {{ $styles := (slice
+      "styles/reset.scss"
+      "styles/tokens/tokens.scss"
+      "styles/utils/utils.scss"
+      "styles/components/components.scss"
+      "styles/fonts.scss"
+      "styles/layouts/layouts.scss"
+      "styles/main.scss"
+    ) }}
+
+    {{ range $styles }}
+      {{ $style := resources.Get . | resources.ToCSS | resources.Fingerprint }}
+      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
+    {{ end }}
   </head>
   <body>
     {{ block "header" . }}
     {{ end }}
-    <main>
-      {{ block "main" . }}
-      {{ end }}
-    </main>
+    {{ block "main" . }}
+    {{ end }}
     {{ block "footer" . }}
     {{ end }}</body>
 </html>

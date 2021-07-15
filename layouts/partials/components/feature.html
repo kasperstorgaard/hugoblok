@@ -1,0 +1,23 @@
+<section class="[ feature ]">
+  {{ partial "image" (dict "filename" .media.filename "width" 400 "height" 400 "focus" .media.focus ) }}
+  <div class="[ flow ]">
+    <div>
+      <h2>{{ .standfirst }}</h2>
+      <h1>{{ partial "components/feature/richtext" .headline }}</h1>
+    </div>
+    {{ $cta := index .call_to_action 0 }}
+    {{ if ne $cta nil }}
+      {{ partial "components/call-to-action" $cta }}
+    {{ end }}
+  </div>
+</section>
+
+{{ define "partials/components/feature/richtext" }}
+  {{ if in (slice "doc" "paragraph") .type }}
+    {{ range .content }}
+      {{ partial "components/feature/richtext" . }}
+    {{ end }}
+  {{ else if eq .type "text" }}
+    {{ partial "marks" . }}
+  {{ end }}
+{{ end }}

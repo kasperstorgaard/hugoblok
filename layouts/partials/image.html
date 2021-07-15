@@ -1,0 +1,8 @@
+{{ $src := "" }}
+{{ $path := strings.ReplaceRE "^https?://[^/]+/" "" .filename }}
+{{ if isset . "focus" }}
+  {{ $src = printf "src=\"https://img2.storyblok.com/%dx%d/filters:focal(%s)/%s\"" .width .height .focus $path }}
+{{ else }}
+  {{ $src = printf "src=\"https://img2.storyblok.com/%dx%d/smart/%s\"" .width .height $path }}
+{{ end }}
+<img {{ $src | safeHTMLAttr }}>

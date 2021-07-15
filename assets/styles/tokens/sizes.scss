@@ -1,0 +1,12 @@
+:root {
+  --scale: 1.25;
+  --size-400: 1rem;
+  --size-300: calc(var(--size-400) / var(--scale));
+  --size-200: calc(var(--size-300) / var(--scale));
+
+  --size-500: calc(var(--size-400) * var(--scale));
+  --size-600: calc(var(--size-500) * var(--scale));
+  --size-700: calc(var(--size-600) * var(--scale));
+  --size-800: calc(var(--size-700) * var(--scale));
+  --size-900: calc(var(--size-800) * var(--scale));
+}

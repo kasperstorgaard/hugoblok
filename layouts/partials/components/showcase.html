@@ -1,0 +1,11 @@
+<section class="[ showcase ]">
+  <div class="[ showcase__wrapper ]">
+    {{ range .items }}
+      {{ if eq .component "feature" }}
+        {{ partial "components/feature" . }}
+      {{ else }}
+        unable to find showcase component for {{ .component }}
+      {{ end }}
+    {{ end }}
+  </div>
+</section>

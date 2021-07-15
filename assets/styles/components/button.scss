@@ -1,0 +1,23 @@
+.button {
+  display: inline-block;
+  padding: var(--size-300) var(--size-600);
+  color: white;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+
+  &.is-primary {
+    background-color: var(--color-primary);
+  }
+
+  &.is-secondary {
+    background-color: var(--color-secondary);
+  }
+}
+
+button.button {
+  outline: none;
+}
+
+a.button {
+  text-decoration: none;
+}

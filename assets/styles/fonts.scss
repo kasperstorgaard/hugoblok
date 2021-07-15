@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'NotoSans-JP';
+  src: url('/NotoSansJP-Regular.woff2') format('woff2'),
+      url('/NotoSansJP-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  font-family: "NotoSans-JP", sans-serif;
+  font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6  {
+  font-weight: normal;
+}
