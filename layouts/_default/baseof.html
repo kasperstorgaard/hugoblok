@@ -10,6 +10,18 @@
     {{ $isDev := true }}
     {{ $options := (dict "enableSourceMap" $isDev) }}
 
+    {{ $scriptOptions := (dict "sourceMap" (cond $isDev "inline" nil)) }}
+
+    {{ $scripts := (slice 
+      "scripts/widgets/widgets.ts"
+      "scripts/main.ts"
+    ) }}
+
+    {{ range $scripts }}
+      {{ $script := resources.Get . | js.Build $scriptOptions | resources.Fingerprint }}
+      <script defer src="{{ $script.Permalink }}" integrity="{{ $script.Data.Integrity }}" type="text/javascript"></script>
+    {{ end }}
+
     {{ $styles := (slice
       "styles/reset.scss"
       "styles/tokens/tokens.scss"
