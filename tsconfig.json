@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "baseUrl": "."
-  }
-}

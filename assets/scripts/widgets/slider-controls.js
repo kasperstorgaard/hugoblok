@@ -1,31 +1,22 @@
-import {LitElement, css, html, nothing} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
-import { debounce } from '../utils/function-helpers';
+import {LitElement, css, html} from 'https://cdn.skypack.dev/lit';
+import {debounce} from '../utils/function-helpers';
 
-@customElement('slider-controls')
-export class SliderControls extends LitElement {
-  static styles = css`
+class SliderControls extends LitElement {
+  static get styles() { return css`
     :host {
       --color: hotpink;
 
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-      -ms-touch-action: pan-y;
-      touch-action: pan-y;
-      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      display: block;
     }
 
     [hidden] {
       display: none;
+    }
+
+    .items {
+      position: relative;
+      z-index: 0;
     }
 
     button {
@@ -39,7 +30,6 @@ export class SliderControls extends LitElement {
 
       width: max(60px, 5%);
       height: max(60px, 5%);
-      z-index: 1;
 
       opacity: 0;
       transition: opacity .14s ease-in;
@@ -48,8 +38,10 @@ export class SliderControls extends LitElement {
       outline: none;
       border-radius: 50%;
       font-size: 0;
+      cursor: pointer;
 
       background: url(/icons/circled-arrow.svg) center no-repeat;
+      z-index: 1;
     }
 
     :host(:hover) button {
@@ -63,37 +55,28 @@ export class SliderControls extends LitElement {
       left: auto;
       right: var(--size-600);
     }
-  `;
+  `}
 
-  /**
-   * The amount of items
-   */
-  @state()
-  size = 0;
-
-  /**
-   * The current index (optional)
-   */
-  @property()
-  index = 0;
-
-  /**
-   * The target id (optional)
-   */
-  @property()
-  target: string;
-
-  targetRef: Element | null = null;
-  length = 0;
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    if (this.target) {
-      this.setTarget(document.getElementById(this.target));
-    } else {
-      this.setTarget(this.previousElementSibling);
+  static get properties() {
+    return {
+      index: {type: Number},
+      size: {attribute: false},
     }
+  }
+
+  constructor() {
+    super();
+
+    this.index = 0;
+    this.size = 0;
+    this.targetRef = null;
+  }
+
+
+  firstUpdated() {
+    this.updateTarget();
+    const slot = this.shadowRoot.querySelector('slot');
+    slot.addEventListener('slotchange', () => this.updateTarget());
   }
 
   disconnectedCallback() {
@@ -111,6 +94,9 @@ export class SliderControls extends LitElement {
         class="[ is-previous ]"
         @click="${this.prev}"
       >previous</button>
+      <div class="[ items ]">
+        <slot></slot>
+      </div>
       <button
         ?hidden=${this.index === this.size - 1}
         class="[ is-next ]" 
@@ -122,7 +108,10 @@ export class SliderControls extends LitElement {
   /**
    * Updating the target that the slider is attached to.
    */
-  setTarget(ref: Element) {
+  updateTarget() {
+    const slot = this.shadowRoot.querySelector('slot');
+    const ref = slot.assignedElements()[0];
+
     if (this.targetRef && this.targetRef !== ref) {
       this.targetRef.removeEventListener('scroll', this.scrollHandler)
       this.index = 0;
@@ -149,7 +138,7 @@ export class SliderControls extends LitElement {
     this.goTo(this.index + 1);
   }
 
-  goTo(index: number) {
+  goTo(index) {
     if (!this.targetRef) {
       return;
     }
@@ -167,13 +156,13 @@ export class SliderControls extends LitElement {
     });
   }
 
-  private updateIndex() {
+  updateIndex() {
     this.index = this.getIndex();
   }
 
-  private scrollHandler = debounce(() => this.updateIndex(), 20);
+  scrollHandler = debounce(() => this.updateIndex(), 20);
 
-  private getIndex() {
+  getIndex() {
     if (!this.targetRef) {
       return 0;
     }
@@ -191,7 +180,7 @@ export class SliderControls extends LitElement {
     for (let idx = 0; idx < children.length; idx++) {
       const child = children[idx];
       const {left} = child.getBoundingClientRect();
-      if (left >= scrollLeft) {
+      if (left >= 0) {
         return idx;
       }
     }
@@ -199,3 +188,5 @@ export class SliderControls extends LitElement {
     return children.length - 1;
   }
 }
+
+customElements.define('slider-controls', SliderControls);
