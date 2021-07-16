@@ -11,7 +11,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-func ImportStories() {
+func ImportStories(dist string) {
 	body := SendRequest("stories")
 
 	stories := gjson.GetBytes(body, "stories|@pretty")
@@ -24,14 +24,14 @@ func ImportStories() {
 
 		var rPath string
 		if slug == "home" {
-			rPath = "content/_index.md"
+			rPath = "/_index.md"
 		} else if strings.HasSuffix(slug, "/") {
-			rPath = fmt.Sprintf("content/%s_index.md", slug)
+			rPath = fmt.Sprintf("/%s_index.md", slug)
 		} else {
-			rPath = fmt.Sprintf("content/%s.md", slug)
+			rPath = fmt.Sprintf("/%s.md", slug)
 		}
 
-		path, err := filepath.Abs(filepath.Join("../../", rPath))
+		path, err := filepath.Abs(filepath.Join(dist, rPath))
 		if err != nil {
 			log.Fatal(err)
 		}
