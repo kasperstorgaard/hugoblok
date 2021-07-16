@@ -8,9 +8,7 @@ import (
 	"net/url"
 )
 
-const previewToken = "JwMpYgzwMNdNM0ZYptvnDQtt"
-
-func SendRequest(path string) []byte {
+func SendRequest(path string, previewToken string) []byte {
 	url := url.URL{
 		Scheme: "https",
 		Host:   "api.storyblok.com",

@@ -11,8 +11,8 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-func ImportStories(dist string) {
-	body := SendRequest("stories")
+func ImportStories(dist string, previewToken string) {
+	body := SendRequest("stories", previewToken)
 
 	stories := gjson.GetBytes(body, "stories|@pretty")
 
