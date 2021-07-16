@@ -1,10 +1,17 @@
 {{ ._editable | safeHTML }}
 <section class="[ feature ]">
-  {{ partial "image" (dict "filename" .media.filename "width" 400 "height" 400 "focus" .media.focus ) }}
-  <div class="[ flow ]">
+  {{ $options := (dict "filename" .media.filename "width" 400 "height" 400 "focus" .media.focus ) }}
+  <picture>
+    <source {{ partial "srcset" (merge $options (dict "ratio" 1)) }} media="(max-width: 639px)" />
+    <source {{ partial "srcset" (merge $options (dict "ratio" (div 16.0 9.0))) }} media="(min-width: 640px)" />
+    <img src="{{.media.filename}}" />
+  </picture>
+  <div class="[ flow pad-400 ]">
     <div>
       <h2 class="[ leading-tight ]">{{ .standfirst }}</h2>
-      <h1 class="[ leading-tight ]">{{ partial "components/feature/richtext" .headline }}</h1>
+      <div class="[ space-200 ]">
+        <h1 class="[ leading-flat ]" >{{ partial "components/feature/richtext" .headline }}</h1>
+      </div>
     </div>
     {{ $cta := index .call_to_action 0 }}
     {{ $cta._editable | safeHTML }}

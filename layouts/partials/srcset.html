@@ -1,0 +1,18 @@
+{{ $widths := (slice 400 600 800 1000 1500) }}
+{{ $ratio := cond (isset . "ratio") .ratio (div 16.0 9.0) }}
+{{ $sources := (slice) }}
+{{ $path := strings.ReplaceRE "^https?://[^/]+/" "" .filename }}
+{{ $focus := .focus }}
+
+{{ range $idx, $width := $widths }}
+  {{ if $focus }}
+    {{ $height := math.Floor (div $width $ratio) }}
+    {{ $sources = $sources | append (printf "https://img2.storyblok.com/%dx%.0f/filters:focal(%s)/%s %dw" $width $height $focus $path $width) }}
+  {{ else }}
+    {{ $sources = $sources | append (printf "https://img2.storyblok.com/%dx%.0f/smart/%s %dw" $width $height $path $width) }}
+  {{ end }}
+{{ end }}
+
+{{ $srcset := printf "srcset=\"%s\"" (delimit $sources ",") }}
+
+{{ return ($srcset | safeHTMLAttr) }}

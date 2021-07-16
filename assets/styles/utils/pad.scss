@@ -1,0 +1,23 @@
+$sizes: (
+  200,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  900,
+);
+
+@each $size in $sizes {
+  .pad-#{$size} {
+    padding: var(--size-#{$size});
+  }
+}
+
+@each $size in $sizes {
+  .pad-sides-#{$size} {
+    padding-left: var(--size-#{$size});
+    padding-right: var(--size-#{$size});
+  }
+}

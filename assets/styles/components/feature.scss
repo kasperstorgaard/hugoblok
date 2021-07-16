@@ -6,24 +6,44 @@
   align-items: center;
   justify-items: center;
 
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
   > * {
-    grid-column: 1/2;
+    grid-column: -1/1;
     grid-row: 1/2;
     z-index: 1;
   }
 
+
   > div {
-    padding: var(--size-400);
+    @media (min-width: 640px) {
+      grid-column: 2/3;
+    }
   }
 
   // the line above the headline -> standfirst
   h2 {
     font-size: var(--size-400);
+
   }
 
   // the headline itself
   h1 {
+    display: inline;
     font-size: var(--size-600);
+
+    @media (max-width: 640px) {
+      font-size: var(--size-700);
+      padding-left: var(--size-200);
+      padding-right: var(--size-200);
+      margin-left: calc(-1 * var(--size-200));
+      margin-right: calc(-1 * var(--size-200));
+      box-decoration-break: clone;
+      -webkit-box-decoration-break:  clone;
+      background: white;
+    }
 
     strong {
       color: var(--color-primary);
